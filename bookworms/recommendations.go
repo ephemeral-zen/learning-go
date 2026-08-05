@@ -1,15 +1,21 @@
 package main
 
+type bookRecommendations map[Book]map[Book]uint
+
 func listOtherBooksOnShelves(indx int, bookworms []Bookworm) []Book {
 	var books []Book
 	for i, bookworm := range bookworms {
 		if i != indx {
 			for _, book := range bookworm.Books {
 				books = append(books, book)
-				return books
 			}
 		}
 	}
+	return books
+}
+
+func registerBookRecommendations(similarbooks bookRecommendations, book Book, otherbooks []Book) {
+
 }
 
 func recommendOtherBooks(bookworms []Bookworm) []Bookworm {
