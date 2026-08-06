@@ -14,13 +14,21 @@ func listOtherBooksOnShelves(indx int, bookworms []Bookworm) []Book {
 	return books
 }
 
-func registerBookRecommendations(similarbooks bookRecommendations, book Book, otherbooks []Book) {
-
+func registerBookRecommendations(sb bookRecommendations, book Book, otherbooks []Book) {
+	if sb[book] == nil {
+		sb[book] = make(map[Book]uint)
+	}
+	for _, onebook := range otherbooks {
+		if book != onebook {
+			sb[book][onebook]++
+		}
+	}
 }
+
+func recommendBooks(sb bookRecommendations, books []Book)
 
 func recommendOtherBooks(bookworms []Bookworm) []Bookworm {
 	sb := make(bookRecommendations)
-
 	for i, bookworm := range bookworms {
 		for _, book := range bookworm.Books {
 			otherBooksOnShelves := listOtherBooksOnShelves(i, bookworms)
