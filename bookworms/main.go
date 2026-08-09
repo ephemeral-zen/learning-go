@@ -20,6 +20,6 @@ func main() {
 		os.Exit(1)
 	}
 	//fmt.Println(bookworms)
-	findCommonBooks(bookworms)
-	recommendOtherBooks(bookworms)
+	//findCommonBooks(bookworms)
+	fmt.Print(recommendOtherBooks(bookworms))
 }

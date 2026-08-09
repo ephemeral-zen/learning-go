@@ -25,7 +25,22 @@ func registerBookRecommendations(sb bookRecommendations, book Book, otherbooks [
 	}
 }
 
-func recommendBooks(sb bookRecommendations, books []Book)
+func recommendBooks(sb bookRecommendations, books []Book) []Book {
+	var recommendedBooks []Book
+	readSet := make(set)
+	for _, book := range books {
+		readSet[book] = struct{}{}
+	}
+	for _, book := range books {
+		for recommendedbook := range sb[book] {
+			if !readSet.Contains(recommendedbook) {
+				readSet[recommendedbook] = struct{}{}
+				recommendedBooks = append(recommendedBooks, recommendedbook)
+			}
+		}
+	}
+	return recommendedBooks
+}
 
 func recommendOtherBooks(bookworms []Bookworm) []Bookworm {
 	sb := make(bookRecommendations)
