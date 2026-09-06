@@ -11,3 +11,8 @@ const (
 	LevelError
 	LevelFatal
 )
+
+// Using Stringer interface here to turn Level to strings
+func (l Level) String() string {
+	//tp do: implement a logic to turn LevelY' int into a string
+}
