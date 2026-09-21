@@ -14,5 +14,18 @@ const (
 
 // Using Stringer interface here to turn Level to strings
 func (l Level) String() string {
-	//tp do: implement a logic to turn LevelY' int into a string
+	switch l {
+	case LevelDebug:
+		return "Debug"
+	case LevelInfo:
+		return "Info"
+	case LevelWarn:
+		return "Warning"
+	case LevelError:
+		return "Error"
+	case LevelFatal:
+		return "Fatal"
+	default:
+		return "test"
+	}
 }

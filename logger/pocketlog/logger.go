@@ -66,9 +66,9 @@ func (l *Logger) Errorf(format string, args ...any) {
 
 // Create a new instance of the Logger struct and return its address in memory
 func New(threshold Level, opts ...Option) *Logger {
-	lgr := &Logger{threshold: threshold, output: os.Stdout}
+	logger := &Logger{threshold: threshold, output: os.Stdout}
 	for _, configFunc := range opts {
-		configFunc(lgr)
+		configFunc(logger)
 	}
-	return lgr
+	return logger
 }
