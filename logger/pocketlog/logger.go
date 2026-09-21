@@ -11,10 +11,27 @@ type Logger struct {
 	output    io.Writer
 }
 
+func (l *Logger) Logf(lvl Level, format string, args ...any) {
+	if l.threshold > lvl {
+		return
+	}
+	l.logf(lvl, format, args...)
+}
+
 func (l *Logger) logf(loglevel Level, format string, args ...any) {
 	fullFormat := "[%s] " + format + "\n"
 	fullArgs := append([]any{loglevel}, args...)
-	_, _ = fmt.Fprintf(l.output, fullFormat+"\n", fullArgs...)
+	fullMessage := fmt.Sprintf(fullFormat, fullArgs...)
+	trucatedOutput := truncateLogOutput(fullMessage, 1000)
+	_, _ = fmt.Fprintln(l.output, trucatedOutput)
+}
+
+func truncateLogOutput(logOutput string, maxLen int) string {
+	runes := []rune(logOutput)
+	if len(runes) <= maxLen {
+		return logOutput
+	}
+	return string(runes[:maxLen])
 }
 
 func setDefaultOutput(l *Logger) {
