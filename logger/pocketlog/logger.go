@@ -11,15 +11,13 @@ type Logger struct {
 	output    io.Writer
 }
 
-func (l *Logger) Logf(lvl Level, format string, args ...any) {
-	if l.threshold > lvl {
-		return
-	}
-	l.logf(lvl, format, args...)
+type LogEntry struct {
+	Level   Level  `json:"level"`
+	Message string `json:"message"`
 }
 
 func (l *Logger) logf(loglevel Level, format string, args ...any) {
-	fullFormat := "[%s] " + format + "\n"
+	fullFormat := "%s " + format + "\n"
 	fullArgs := append([]any{loglevel}, args...)
 	fullMessage := fmt.Sprintf(fullFormat, fullArgs...)
 	trucatedOutput := truncateLogOutput(fullMessage, 1000)
