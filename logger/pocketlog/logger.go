@@ -13,18 +13,19 @@ type Logger struct {
 }
 
 type LogEntry struct {
-	Level   Level  `json:"level"`
-	Message string `json:"message"`
+	LogLevel Level  `json:"level"`
+	Message  string `json:"message"`
 }
 
 func (l *Logger) logf(loglevel Level, format string, args ...any) {
-	//fullFormat := "%s " + format + "\n"
+	//fullFormat := "%s " + format
 	//fullArgs := append([]any{loglevel}, args...)
-	//fullMessage := fmt.Sprintf(fullFormat, fullArgs...)
-	trucatedOutput := truncateLogOutput(format, 1000)
+	truncatedOutput := truncateLogOutput(format, 1000)
+	fullMessage := fmt.Sprintf(truncatedOutput, args...)
+
 	logEngry := LogEntry{
-		Level:   loglevel,
-		Message: trucatedOutput,
+		LogLevel: loglevel,
+		Message:  fullMessage,
 	}
 
 	logLine, _ := json.Marshal(logEngry)

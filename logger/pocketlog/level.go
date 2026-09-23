@@ -26,6 +26,10 @@ func (l Level) String() string {
 	case LevelFatal:
 		return "Fatal"
 	default:
-		return "test"
+		return ""
 	}
+}
+
+func (l Level) MarshalText() ([]byte, error) {
+	return []byte(l.String()), nil
 }
