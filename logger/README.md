@@ -5,3 +5,5 @@ The book provides the base application structure. I completed the project by imp
 2. Level convertion (from byte to string type using Stringer interface)
 
 3. Log truncation at a given amount of characters
+
+4. Log entries conversion to JSON as well as Level conversion from byte to string using Stringer and MarshalText
