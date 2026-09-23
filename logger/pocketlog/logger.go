@@ -1,6 +1,7 @@
 package pocketlog
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"os"
@@ -17,11 +18,17 @@ type LogEntry struct {
 }
 
 func (l *Logger) logf(loglevel Level, format string, args ...any) {
-	fullFormat := "%s " + format + "\n"
-	fullArgs := append([]any{loglevel}, args...)
-	fullMessage := fmt.Sprintf(fullFormat, fullArgs...)
-	trucatedOutput := truncateLogOutput(fullMessage, 1000)
-	_, _ = fmt.Fprintln(l.output, trucatedOutput)
+	//fullFormat := "%s " + format + "\n"
+	//fullArgs := append([]any{loglevel}, args...)
+	//fullMessage := fmt.Sprintf(fullFormat, fullArgs...)
+	trucatedOutput := truncateLogOutput(format, 1000)
+	logEngry := LogEntry{
+		Level:   loglevel,
+		Message: trucatedOutput,
+	}
+
+	logLine, _ := json.Marshal(logEngry)
+	_, _ = fmt.Fprintln(l.output, string(logLine))
 }
 
 func truncateLogOutput(logOutput string, maxLen int) string {
