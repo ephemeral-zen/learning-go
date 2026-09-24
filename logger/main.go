@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	logger := pocketlog.New(pocketlog.LevelInfo, pocketlog.WithOutput(os.Stdout))
+	logger := pocketlog.New(pocketlog.LevelInfo, pocketlog.WithOutput(os.Stdout), pocketlog.WithMaxSymbols(1000))
 
 	logger.Infof("A little copying is better than a little dependency.")
 	logger.Errorf("Errors are values. Documentation is for %s.", "users")

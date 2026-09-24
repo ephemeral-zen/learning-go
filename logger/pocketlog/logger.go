@@ -8,8 +8,9 @@ import (
 )
 
 type Logger struct {
-	threshold Level
-	output    io.Writer
+	threshold  Level
+	output     io.Writer
+	maxSymbols int
 }
 
 type LogEntry struct {
@@ -21,14 +22,14 @@ func (l *Logger) logf(loglevel Level, format string, args ...any) {
 	//fullFormat := "%s " + format
 	//fullArgs := append([]any{loglevel}, args...)
 	fullMessage := fmt.Sprintf(format, args...)
-	truncatedOutput := truncateLogOutput(fullMessage, 1000)
+	truncatedOutput := truncateLogOutput(fullMessage, l.maxSymbols)
 
-	logEngry := LogEntry{
+	logEntry := LogEntry{
 		LogLevel: loglevel,
 		Message:  truncatedOutput,
 	}
 
-	logLine, _ := json.Marshal(logEngry)
+	logLine, _ := json.Marshal(logEntry)
 	_, _ = fmt.Fprintln(l.output, string(logLine))
 }
 
@@ -79,17 +80,10 @@ func (l *Logger) Errorf(format string, args ...any) {
 	l.logf(LevelError, format, args...)
 }
 
-//func (l *Logger) Fatalf(format string, args ...any) {
-//	if l.threshold > LevelFatal {
-//		return
-//	}
-//	setDefaultOutput(l)
-//	l.logf(format, args...)
-//}
-
 // Create a new instance of the Logger struct and return its address in memory
 func New(threshold Level, opts ...Option) *Logger {
-	logger := &Logger{threshold: threshold, output: os.Stdout}
+	// Define default values
+	logger := &Logger{threshold: threshold, output: os.Stdout, maxSymbols: 1000}
 	for _, configFunc := range opts {
 		configFunc(logger)
 	}
