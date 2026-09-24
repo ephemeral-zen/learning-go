@@ -20,12 +20,12 @@ type LogEntry struct {
 func (l *Logger) logf(loglevel Level, format string, args ...any) {
 	//fullFormat := "%s " + format
 	//fullArgs := append([]any{loglevel}, args...)
-	truncatedOutput := truncateLogOutput(format, 1000)
-	fullMessage := fmt.Sprintf(truncatedOutput, args...)
+	fullMessage := fmt.Sprintf(format, args...)
+	truncatedOutput := truncateLogOutput(fullMessage, 1000)
 
 	logEngry := LogEntry{
 		LogLevel: loglevel,
-		Message:  fullMessage,
+		Message:  truncatedOutput,
 	}
 
 	logLine, _ := json.Marshal(logEngry)
